@@ -4,12 +4,13 @@ from pydantic import BaseModel
 app = FastAPI(title="Notes API")
 
 class NoteInput(BaseModel):
-    title: str
-    content: str
+    title: str = Field(..., min_length=3, max_length=100, description="Short title for the note")
+    content: str = Field(..., min_length=1, max_length=2000)
+
 
 class NoteUpdate(BaseModel):
-    title: str | None = None
-    content: str | None = None
+    title: str | None = Field(default=None, min_length=3, max_length=100)
+    content: str | None = Field(default=None, min_length=1, max_length=2000)
 
 notes: list[dict] = []
 
